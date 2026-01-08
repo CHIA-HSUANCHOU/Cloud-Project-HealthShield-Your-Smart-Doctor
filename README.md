@@ -30,7 +30,7 @@ Users can input health-related parameters through an interactive form.
 3. If required inputs are left empty, the system will display a warning message before prediction.
 ![Warn2](img/warning2.png)
 
-After completing the inputs, click **“View my prediction”** to proceed to the results page.
+After completing the inputs, click **“Get my prediction”** to proceed to the results page.
 
 ![Demo1](img/page1_1.png)
 ![Demo2](img/page1_2.png)
@@ -158,6 +158,7 @@ The deployment process includes:
 ### Model Comparison
 
 ![Performance](img/performance.png)
+
 
 
 
