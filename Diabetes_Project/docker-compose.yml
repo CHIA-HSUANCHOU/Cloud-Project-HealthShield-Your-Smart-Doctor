@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # 定義後端服務
+  backend:
+    build: ./backend        # 使用 backend 資料夾內的 Dockerfile
+    container_name: diabetes_backend
+    ports:
+      - "8000:8000"         # 將容器的 8000 port 對應到電腦的 8000
+    # ★新增下面這兩行 (掛載資料夾)
+    volumes:
+      - ./backend:/app
+    # ★修改啟動指令 (加入 --reload 讓 FastAPI 自動偵測變更重啟)
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - app-network
+
+  # 定義前端服務
+  frontend:
+    build: ./frontend       # 使用 frontend 資料夾內的 Dockerfile
+    container_name: diabetes_frontend
+    ports:
+      - "8501:8501"         # Streamlit 預設 port
+    environment:
+      # 🔥 關鍵修正：告訴前端，後端在 "backend" 這台機器上，而不是 localhost
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend             # 確保後端先啟動
+    networks:
+      - app-network
+
+# 建立專屬網路，讓前後端可以互連
+networks:
+  app-network:
+    driver: bridge
